@@ -11,6 +11,21 @@ def load_items_from_file(filename):
         print(f"Soubor '{filename}' nebyl nalezen.")
         return []
 
+# Funkce pro vytvoření unikátního názvu souboru
+def generate_unique_filename(base_path, base_name, extension):
+    counter = 0
+    # Základní název souboru
+    file_name = f"{base_name}{extension}"
+    file_path = os.path.join(base_path, file_name)
+    
+    # Hledání volného názvu souboru
+    while os.path.exists(file_path):
+        counter += 1
+        file_name = f"{base_name}{counter:02d}{extension}"
+        file_path = os.path.join(base_path, file_name)
+    
+    return file_path
+
 # Vyzvání uživatele k zadání cesty k souboru
 file_path = input("Zadejte cestu k souboru se seznamem položek: ")
 
@@ -36,7 +51,9 @@ else:
 
     # Cesta k uložení souboru do složky Stahování (Downloads)
     downloads_folder = os.path.expanduser("~/Downloads")
-    output_file = os.path.join(downloads_folder, "qr_code.png")
+
+    # Generování unikátního názvu souboru
+    output_file = generate_unique_filename(downloads_folder, "qr_code", ".png")
 
     # Vytvoření obrázku QR kódu
     img = qr.make_image(fill="black", back_color="white")
