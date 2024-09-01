@@ -4,9 +4,10 @@ import os
 # Načtení položek ze souboru
 def load_items_from_file(filename):
     try:
-        with open(filename, 'r') as file:
-            items = file.read().splitlines()
-            return items
+     #    with open(filename, 'r') as file:
+     with open(filename, 'r', encoding='utf-8') as file:
+        items = file.read().splitlines()
+        return items
     except FileNotFoundError:
         print(f"Soubor '{filename}' nebyl nalezen.")
         return []
@@ -41,12 +42,12 @@ else:
 
     # Vygenerování QR kódu
     qr = qrcode.QRCode(
-        version=1,
+        version=None,
         error_correction=qrcode.constants.ERROR_CORRECT_L,
         box_size=10,
         border=4,
     )
-    qr.add_data(text)
+    qr.add_data(text, optimize=0)
     qr.make(fit=True)
 
     # Cesta k uložení souboru do složky Stahování (Downloads)
